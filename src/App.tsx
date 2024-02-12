@@ -21,7 +21,7 @@ export function App() {
           content: 'Comprar Ração para os cachorros, e remedio para os gatos beber'
         }} />
 
-<CardNotas note={{
+        <CardNotas note={{
           date: new Date(),
           content: 'Instalar Ar-Condicionado no eldorado'
         }} />

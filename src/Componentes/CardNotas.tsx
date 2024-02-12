@@ -11,7 +11,7 @@ interface PropsDoCardNotas {
 export function CardNotas({ note }: PropsDoCardNotas) {
   return (
     <Dialog.Root>
-      <Dialog.Trigger className='focus-visible:ring-2 outline-none flex flex-col focus-visible:ring-lime-400 rounded-md text-left bg-slate-700 p-5 gap-3 overflow-hidden relative hover:ring-2 hover:ring-slate-600'>
+      <Dialog.Trigger className=' outline-none flex flex-col  rounded-md text-left bg-slate-700 p-5 gap-3 overflow-hidden relative hover:ring-2 hover:ring-slate-600 focus-visible:ring-lime-400 focus-visible:ring-2 '>
         <span className='text-sm font-medium text-slate-300'>
           {note.date.toISOString()}
         </span>
@@ -27,7 +27,7 @@ export function CardNotas({ note }: PropsDoCardNotas) {
         <Dialog.Content className="overflow-hidden outline-none max-w-[640px] w-full bg-slate-700 rounded-md flex flex-col fixed left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2  h-[60vh]  " >
 
           <Dialog.Close className="absolute right-2 top-2 bg-slate-800 p-1.5 text-slate-400 hover:bg-slate-900  hover:text-red-400"  >
-            <X className="size-5"/>
+            <X className="size-5" />
           </Dialog.Close>
           <div className="flex flex-1 flex-col gap-3 p-5">
             <span className='text-sm font-medium text-slate-300'>
