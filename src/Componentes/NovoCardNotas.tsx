@@ -1,6 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog"
 import { X } from 'lucide-react'
 import { ChangeEvent, FormEvent, useState } from "react"
+import { toast } from 'sonner'
 
 export function NovoCardNotas() {
   const [deveAparecer, SetDeveAparecer] = useState(true)
@@ -21,6 +22,7 @@ export function NovoCardNotas() {
     // remove o comportamento padrao do botao
     event.preventDefault()
     console.log(conteudo)
+    toast.success('Nota Criada com Sucesso')
   }
 
   return (

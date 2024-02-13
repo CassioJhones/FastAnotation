@@ -3,12 +3,12 @@ import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { X } from 'lucide-react'
 interface PropsDoCardNotas {
-  note: {
+  anotacao: {
     date: Date
     content: string
   }
 }
-export function CardNotas({ note }: PropsDoCardNotas) {
+export function CardNotas({ anotacao: note }: PropsDoCardNotas) {
   return (
     <Dialog.Root>
       <Dialog.Trigger className=' outline-none flex flex-col  rounded-md text-left bg-slate-700 p-5 gap-3 overflow-hidden relative hover:ring-2 hover:ring-slate-600 focus-visible:ring-lime-400 focus-visible:ring-2 '>
