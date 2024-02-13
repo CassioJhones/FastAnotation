@@ -7,9 +7,18 @@ export function App() {
   const [notas, setNotas] = useState([
     //estado tipo array deve ser percorrido
     { notaID: 1, date: new Date(), content: 'Comprar Ração para os cachorros, e remedio para os gatos beber' },
-    { notaID: 2, date: new Date(), content: 'Teste de array' },
     { notaID: 3, date: new Date(), content: 'Capturar Pokemon' },
   ])
+
+  function onCriandoAnotacao(content: string) {
+    const novaAnotacao = {
+      notaID: Math.random(),
+      date: new Date(),
+      content,
+    }
+
+    setNotas([novaAnotacao, ...notas])
+  }
 
   return (
     <div className='mx-auto max-w-6xl my-12 space-y-6'>
@@ -20,7 +29,7 @@ export function App() {
       </form>
       <div className='h-px bg-slate-700' />
       <div className='grid grid-cols-3 auto-rows-[250px] gap-6'>
-        <NovoCardNotas />
+        <NovoCardNotas onCriandoAnotacao={onCriandoAnotacao}/>
         {notas.map(note => {
           return <CardNotas key={note.notaID} anotacao={note} />
         })}

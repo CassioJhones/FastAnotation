@@ -3,7 +3,11 @@ import { X } from 'lucide-react'
 import { ChangeEvent, FormEvent, useState } from "react"
 import { toast } from 'sonner'
 
-export function NovoCardNotas() {
+interface PropsCardNovo {
+  onCriandoAnotacao: (content: string) => void
+}
+
+export function NovoCardNotas({onCriandoAnotacao}:PropsCardNovo) {
   const [deveAparecer, SetDeveAparecer] = useState(true)
   const [conteudo, SetConteudo] = useState('')
 
@@ -21,7 +25,7 @@ export function NovoCardNotas() {
   function usuarioSalvouNota(event: FormEvent) {
     // remove o comportamento padrao do botao
     event.preventDefault()
-    console.log(conteudo)
+    onCriandoAnotacao(conteudo)
     toast.success('Nota Criada com Sucesso')
   }
 
