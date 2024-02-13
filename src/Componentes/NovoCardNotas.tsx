@@ -2,8 +2,15 @@ import * as Dialog from "@radix-ui/react-dialog"
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { X } from 'lucide-react'
+import { useState } from "react"
 
 export function NovoCardNotas() {
+  const [deveAparecer, SetDeveAparecer] = useState(true)
+
+  function usuarioComecouEditar() {
+    SetDeveAparecer(false)
+  }
+
   return (
     <Dialog.Root>
       <Dialog.Trigger className='flex flex-col text-left rounded-md bg-slate-700 p-5 gap-3 hover:ring-2 hover:ring-slate-600 focus-visible:ring-lime-400 focus-visible:ring-2 ' >
@@ -14,19 +21,22 @@ export function NovoCardNotas() {
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="inset-0 fixed bg-black/60" />
-        <Dialog.Content className="overflow-hidden outline-none max-w-[640px] w-full bg-slate-700 rounded-md flex flex-col fixed left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2  h-[60vh]  " >
+        <Dialog.Overlay className="inset-0 fixed bg-black/50" />
+        <Dialog.Content className="overflow-hidden outline-none h-[70vh] max-w-[740px] w-full bg-slate-700 rounded-md flex flex-col fixed left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2    " >
 
           <Dialog.Close className="absolute right-2 top-2 bg-slate-800 p-1.5 text-slate-400 hover:bg-slate-900  hover:text-red-400"  >
-            <X className="size-5" />
+            <X className="size-5" /> 
           </Dialog.Close>
+
           <div className="flex flex-1 flex-col gap-3 p-5">
             <span className='text-sm font-medium text-slate-300'>
               Adicionar Nota
             </span>
+
+            {deveAparecer?(
             <p className='text-sm leading-6 text-slate-400'>
-              <button className="font-bold text-lime-400 hover:underline"> Grave uma nota</button> em audio usando o microfone, ou se preferir <button className="font-bold text-lime-400 hover:underline"> utilize apenas texto</button>
-            </p>
+              Comece <button className="font-medium text-lime-400 hover:underline"> gravando uma nota </button> em audio usando o microfone, ou se preferir <button onClick={usuarioComecouEditar} className="font-medium text-lime-400 hover:underline">  utilize apenas texto</button>
+            </p>) : (<p>editor</p>)}
           </div>
 
           <button type="button" className=" hover:bg-lime-600 outline-none text-lime-950 text-sm w-full bg-lime-400 py-5 text-center font-bold">
