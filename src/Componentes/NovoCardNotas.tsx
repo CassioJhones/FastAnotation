@@ -37,19 +37,20 @@ export function NovoCardNotas({ onCriandoAnotacao }: PropsCardNovo) {
   }
 
   function UsuarioIniciouGravacao() {
-    SetGravando(true)
-
     const ApiVozDisponivel = 'SpeechRecognition' in window
       || 'webkitSpeechRecognition' in window
 
     if (!ApiVozDisponivel) {
-      alert('navegador nao aceita')
+      toast.error('Este Navegador não aceita a API de Voz')
       return
     }
-    if (ApiVozDisponivel) {
-      toast.warning('microfone ligado')
-      return
+    else if (ApiVozDisponivel) {
+      toast.warning('Microfone Ligado')
     }
+
+    SetGravando(true)
+    SetDeveAparecer(false)
+
     const ApiCapturaDeVoz = window.SpeechRecognition || window.webkitSpeechRecognition
     const CapturaDeVoz = new ApiCapturaDeVoz()
 
@@ -59,15 +60,18 @@ export function NovoCardNotas({ onCriandoAnotacao }: PropsCardNovo) {
     CapturaDeVoz.interimResults = true
 
     CapturaDeVoz.onresult = (event) => {
-      console.log(event.results);
+      const transcricao = Array.from(event.results).reduce((text, result) => {
+        return text.concat(result[0].transcript)
+      }, '')
+      SetConteudo(transcricao)
     }
 
     CapturaDeVoz.onerror = (event) => {
       console.error(event);
     }
 
-    CapturaDeVoz.start()
 
+    CapturaDeVoz.start()
   }
 
   function UsuarioParouGravacao() {
