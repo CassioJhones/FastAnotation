@@ -24,14 +24,12 @@ export function NovoCardNotas({ onCriandoAnotacao }: PropsCardNovo) {
   }
 
   function usuarioSalvouNota(event: FormEvent) {
-    // remove o comportamento padrao do botao
     event.preventDefault()
 
     if (conteudo === '') {
-      toast.error('Nota Vazia nao Permitida')
+      toast.error('Nota Vazia não Permitida')
       return
     }
-
     onCriandoAnotacao(conteudo)
     toast.success('Nota Criada com Sucesso')
     SetConteudo('')
@@ -40,6 +38,36 @@ export function NovoCardNotas({ onCriandoAnotacao }: PropsCardNovo) {
 
   function UsuarioIniciouGravacao() {
     SetGravando(true)
+
+    const ApiVozDisponivel = 'SpeechRecognition' in window
+      || 'webkitSpeechRecognition' in window
+
+    if (!ApiVozDisponivel) {
+      alert('navegador nao aceita')
+      return
+    }
+    if (ApiVozDisponivel) {
+      toast.warning('microfone ligado')
+      return
+    }
+    const ApiCapturaDeVoz = window.SpeechRecognition || window.webkitSpeechRecognition
+    const CapturaDeVoz = new ApiCapturaDeVoz()
+
+    CapturaDeVoz.lang = 'pt-BR'
+    CapturaDeVoz.continuous = true
+    CapturaDeVoz.maxAlternatives = 1
+    CapturaDeVoz.interimResults = true
+
+    CapturaDeVoz.onresult = (event) => {
+      console.log(event.results);
+    }
+
+    CapturaDeVoz.onerror = (event) => {
+      console.error(event);
+    }
+
+    CapturaDeVoz.start()
+
   }
 
   function UsuarioParouGravacao() {

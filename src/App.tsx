@@ -13,13 +13,13 @@ interface INote {
 export function App() {
   const [busca, SetBusca] = useState('')
   const [notas, setNotas] = useState<INote[]>(() => {
-    const sNotasSalvasNoStorage = localStorage.getItem('AnotacaoSalva')
-
+    const sNotasSalvasNoStorage = localStorage.getItem('notaSalva')
+    
+    // processo inverso do stringfy usado antes
     if (sNotasSalvasNoStorage) {
       return JSON.parse(sNotasSalvasNoStorage)
-      // processo inverso do stringfy usado antes
     }
-
+    
     return []
   })
 
@@ -37,16 +37,16 @@ export function App() {
     }
 
     const ArrayNotas = [novaAnotacao, ...notas]
+
     setNotas(ArrayNotas)
 
     // localStorage nao aceita Array, por isso necessario converter o array para JSON
-    localStorage.setItem('AnotacaoSalva', JSON.stringify(ArrayNotas))
+    localStorage.setItem('notaSalva', JSON.stringify(ArrayNotas))
   }
 
   const NotasFiltradas = busca !== ''
     ? notas.filter(notas => notas.content.toLocaleLowerCase().includes(busca.toLocaleLowerCase()))
     : notas
-
 
   return (
     <div className='mx-auto max-w-6xl my-12 space-y-6'>
@@ -54,8 +54,7 @@ export function App() {
       <form className='w-full'>
         <input
           onChange={UsuarioBuscandoCard}
-          type='text'
-          placeholder='Busque em suas notas...'
+          type='text' placeholder='Busque em suas notas...'
           className='p-2 w-full bg-transparent text-3xl font-semibold tracking-tight outline-none placeholder:text-slate-500' />
       </form>
       <div className='h-px bg-slate-700' />
