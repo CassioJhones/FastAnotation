@@ -27,6 +27,7 @@ export function NovoCardNotas({onCriandoAnotacao}:PropsCardNovo) {
     event.preventDefault()
     onCriandoAnotacao(conteudo)
     toast.success('Nota Criada com Sucesso')
+    SetConteudo('')
   }
 
   return (
@@ -37,11 +38,9 @@ export function NovoCardNotas({onCriandoAnotacao}:PropsCardNovo) {
         <p className='text-sm leading-6 text-slate-400'>
           Grave uma nota usando o microfone, que será convertido para texto</p>
       </Dialog.Trigger>
-
       <Dialog.Portal>
         <Dialog.Overlay className="inset-0 fixed bg-black/50" />
         <Dialog.Content className="overflow-hidden outline-none h-[70vh] max-w-[658px] w-full bg-slate-700 rounded-md flex flex-col fixed left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2   " >
-
           <Dialog.Close className="absolute right-2 top-2 bg-slate-800 p-1.5 text-slate-400 hover:bg-slate-900  hover:text-red-400"  >
             <X className="size-5" />
           </Dialog.Close>
@@ -60,7 +59,9 @@ export function NovoCardNotas({onCriandoAnotacao}:PropsCardNovo) {
                 (
                   <textarea autoFocus
                     className="resize-none text-slate-400 text-lg leading-6 bg-transparent flex-1 outline-none "
-                    onChange={usuarioDigitando} />
+                    onChange={usuarioDigitando}
+                    value={conteudo}
+                    />
                 )}
             </div>
 
@@ -69,8 +70,6 @@ export function NovoCardNotas({onCriandoAnotacao}:PropsCardNovo) {
               Salvar Nota </button></form>
         </Dialog.Content>
       </Dialog.Portal>
-
-
     </Dialog.Root>
   )
 }

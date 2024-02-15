@@ -3,16 +3,20 @@ import { CardNotas } from './Componentes/CardNotas'
 import { NovoCardNotas } from './Componentes/NovoCardNotas'
 import Logo from './assets/LogoNlw.svg'
 //o componente é renderizado sempre que o estado muda
+
+interface INote {
+  notaID: string,
+  date: Date,
+  content: string,
+}
+
+
 export function App() {
-  const [notas, setNotas] = useState([
-    //estado tipo array deve ser percorrido
-    { notaID: 1, date: new Date(), content: 'Comprar Ração para os cachorros, e remedio para os gatos beber' },
-    { notaID: 3, date: new Date(), content: 'Capturar Pokemon' },
-  ])
+  const [notas, setNotas] = useState<INote[]>([])
 
   function onCriandoAnotacao(content: string) {
     const novaAnotacao = {
-      notaID: Math.random(),
+      notaID: crypto.randomUUID(),
       date: new Date(),
       content,
     }
@@ -29,7 +33,7 @@ export function App() {
       </form>
       <div className='h-px bg-slate-700' />
       <div className='grid grid-cols-3 auto-rows-[250px] gap-6'>
-        <NovoCardNotas onCriandoAnotacao={onCriandoAnotacao}/>
+        <NovoCardNotas onCriandoAnotacao={onCriandoAnotacao} />
         {notas.map(note => {
           return <CardNotas key={note.notaID} anotacao={note} />
         })}
