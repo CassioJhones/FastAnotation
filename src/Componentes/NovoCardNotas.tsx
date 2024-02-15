@@ -28,6 +28,7 @@ export function NovoCardNotas({onCriandoAnotacao}:PropsCardNovo) {
     onCriandoAnotacao(conteudo)
     toast.success('Nota Criada com Sucesso')
     SetConteudo('')
+    SetDeveAparecer(true)
   }
 
   return (
