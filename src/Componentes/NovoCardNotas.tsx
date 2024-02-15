@@ -7,9 +7,10 @@ interface PropsCardNovo {
   onCriandoAnotacao: (content: string) => void
 }
 
-export function NovoCardNotas({onCriandoAnotacao}:PropsCardNovo) {
+export function NovoCardNotas({ onCriandoAnotacao }: PropsCardNovo) {
   const [deveAparecer, SetDeveAparecer] = useState(true)
   const [conteudo, SetConteudo] = useState('')
+  const [gravando, SetGravando] = useState(false)
 
   function usuarioAtivouEditor() {
     SetDeveAparecer(false)
@@ -25,10 +26,24 @@ export function NovoCardNotas({onCriandoAnotacao}:PropsCardNovo) {
   function usuarioSalvouNota(event: FormEvent) {
     // remove o comportamento padrao do botao
     event.preventDefault()
+
+    if (conteudo === '') {
+      toast.error('Nota Vazia nao Permitida')
+      return
+    }
+
     onCriandoAnotacao(conteudo)
     toast.success('Nota Criada com Sucesso')
     SetConteudo('')
     SetDeveAparecer(true)
+  }
+
+  function UsuarioIniciouGravacao() {
+    SetGravando(true)
+  }
+
+  function UsuarioParouGravacao() {
+    SetGravando(false)
   }
 
   return (
@@ -46,7 +61,7 @@ export function NovoCardNotas({onCriandoAnotacao}:PropsCardNovo) {
             <X className="size-5" />
           </Dialog.Close>
 
-          <form onSubmit={usuarioSalvouNota} className="flex flex-1 flex-col">
+          <form className="flex flex-1 flex-col">
             <div className="flex flex-1 flex-col gap-3 p-5">
               <span className='text-sm font-medium text-slate-300'>
                 Adicionar Nota
@@ -54,7 +69,7 @@ export function NovoCardNotas({onCriandoAnotacao}:PropsCardNovo) {
 
               {deveAparecer ? (
                 <p className='text-sm leading-6 text-slate-400'>
-                  Comece <button className="font-medium text-lime-400 hover:underline"> gravando uma nota </button> em audio usando o microfone, ou se preferir <button onClick={usuarioAtivouEditor} className="font-medium text-lime-400 hover:underline">  utilize apenas texto</button>
+                  Comece <button type="button" onClick={UsuarioIniciouGravacao} className="font-medium text-lime-400 hover:underline"> gravando uma nota </button> em audio usando o microfone, ou se preferir <button type="button" onClick={usuarioAtivouEditor} className="font-medium text-lime-400 hover:underline">  utilize apenas texto</button>
                 </p>)
                 :
                 (
@@ -62,13 +77,26 @@ export function NovoCardNotas({onCriandoAnotacao}:PropsCardNovo) {
                     className="resize-none text-slate-400 text-lg leading-6 bg-transparent flex-1 outline-none "
                     onChange={usuarioDigitando}
                     value={conteudo}
-                    />
+                  />
                 )}
             </div>
 
-            <button type="submit"
-              className=" hover:bg-lime-600 outline-none text-lime-950 text-sm w-full bg-lime-400 py-5 text-center font-bold">
-              Salvar Nota </button></form>
+            {gravando ?
+              (<button
+                onClick={UsuarioParouGravacao}
+                type="button"
+                className="flex items-center justify-center gap-2 hover:bg-lime-600 hover:text-slate-100 outline-none text-slate-300 text-sm w-full bg-slate-900 py-5 text-center font-bold">
+                <div className="flex items-center justify-center rounded-full bg-red-600 size-3 animate-pulse" /> Gravando
+              </button>) :
+              (<button
+                onClick={usuarioSalvouNota}
+                type="button"
+                className=" hover:bg-lime-600 outline-none text-lime-950 text-sm w-full bg-lime-400 py-5 text-center font-bold">
+                Salvar Nota
+              </button>)}
+
+
+          </form>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
