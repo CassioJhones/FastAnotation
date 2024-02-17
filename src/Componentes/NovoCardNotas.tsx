@@ -2,10 +2,10 @@ import * as Dialog from "@radix-ui/react-dialog"
 import { X } from 'lucide-react'
 import { ChangeEvent, FormEvent, useState } from "react"
 import { toast } from 'sonner'
-
 interface PropsCardNovo {
   onCriandoAnotacao: (content: string) => void
 }
+let CapturaDeVoz: SpeechRecognition | null = null
 
 export function NovoCardNotas({ onCriandoAnotacao }: PropsCardNovo) {
   const [deveAparecer, SetDeveAparecer] = useState(true)
@@ -52,7 +52,7 @@ export function NovoCardNotas({ onCriandoAnotacao }: PropsCardNovo) {
     SetDeveAparecer(false)
 
     const ApiCapturaDeVoz = window.SpeechRecognition || window.webkitSpeechRecognition
-    const CapturaDeVoz = new ApiCapturaDeVoz()
+    CapturaDeVoz = new ApiCapturaDeVoz()
 
     CapturaDeVoz.lang = 'pt-BR'
     CapturaDeVoz.continuous = true
@@ -76,6 +76,7 @@ export function NovoCardNotas({ onCriandoAnotacao }: PropsCardNovo) {
 
   function UsuarioParouGravacao() {
     SetGravando(false)
+    CapturaDeVoz?.stop()
   }
 
   return (
@@ -88,7 +89,7 @@ export function NovoCardNotas({ onCriandoAnotacao }: PropsCardNovo) {
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="inset-0 fixed bg-black/50" />
-        <Dialog.Content className="overflow-hidden outline-none h-[70vh] max-w-[658px] w-full bg-slate-700 rounded-md flex flex-col fixed left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2   " >
+        <Dialog.Content className="inset-0 overflow-hidden outline-none md:h-[70vh] md:max-w-[658px] w-full bg-slate-700 md:rounded-md flex flex-col fixed md:left-1/2 md:top-1/2 md:-translate-y-1/2 md:-translate-x-1/2   " >
           <Dialog.Close className="absolute right-2 top-2 bg-slate-800 p-1.5 text-slate-400 hover:bg-slate-900  hover:text-red-400"  >
             <X className="size-5" />
           </Dialog.Close>
@@ -123,7 +124,7 @@ export function NovoCardNotas({ onCriandoAnotacao }: PropsCardNovo) {
               (<button
                 onClick={usuarioSalvouNota}
                 type="button"
-                className=" hover:bg-lime-600 outline-none text-lime-950 text-sm w-full bg-lime-400 py-5 text-center font-bold">
+                className=" hover:bg-lime-600 outline-none text-lime-950 text-lg md:text-sm w-full bg-lime-400 py-9 md:py-4 text-center font-bold">
                 Salvar Nota
               </button>)}
 
